@@ -53,6 +53,9 @@ O objetivo é criar um sistema que:
 
 ## Endpoints da API
 
+**Obs.:** Após rodar a API, os endpoints disponíveis serão listados na documentação swagger.
+Para acessá-la: `http://localhost:3000/docs`.
+
 ### **1. Criar uma conta**
 
 #### POST /account
