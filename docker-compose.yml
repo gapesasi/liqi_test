@@ -1,0 +1,56 @@
+version: "3.8"
+
+services:
+  server:
+    container_name: liqi_server
+    build:
+      context: .
+    environment:
+      NODE_ENV: production
+      DATABASE_HOST: database
+    ports:
+      - 3000:3000
+    networks:
+      - liqi-network
+    depends_on:
+      - database
+
+  database:
+    command: "-jar DynamoDBLocal.jar -sharedDb -dbPath ./data"
+    image: "amazon/dynamodb-local:latest"
+    container_name: liqi_database
+    env_file:
+      - .env
+    environment:
+      MYSQL_DATABASE: ${DATABASE_NAME}
+      MYSQL_ROOT_PASSWORD: ${DATABASE_PASSWORD}
+    ports:
+      - "8000:8000"
+    volumes:
+      - "./docker/dynamodb:/home/dynamodblocal/data"
+    networks:
+      - liqi-network
+
+  localstack:
+    container_name: liqi_localstack
+    image: localstack/localstack
+    ports:
+      - "127.0.0.1:4566:4566" 
+      - "127.0.0.1:4510-4559:4510-4559" 
+    environment:
+      - DEBUG=${DEBUG-}
+      - PERSISTENCE=${PERSISTENCE-}
+      - LAMBDA_EXECUTOR=${LAMBDA_EXECUTOR-}
+      - DOCKER_HOST=unix:///var/run/docker.sock
+    volumes:
+      - "localstack-data:/var/lib/localstack"
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    networks:
+      - liqi-network
+
+volumes:
+  localstack-data:
+
+networks:
+  liqi-network:
+    name: liqi-network

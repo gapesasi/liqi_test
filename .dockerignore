@@ -1,0 +1,11 @@
+**/docker-compose*
+**/compose.y*ml
+**/Dockerfile*
+**/node_modules
+**/coverage/
+**/.git
+**/.gitignore
+**/.dockerignore
+**/dist
+**/.vscode
+README.md
