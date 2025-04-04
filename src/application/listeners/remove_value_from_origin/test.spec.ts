@@ -4,9 +4,12 @@ import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
 import { IAccountRepository } from "../../../infra/database/account_repository/interface";
 import RemoveValueFromOrigin from ".";
+import { IBalanceUpdateProcessRepository } from "../../../infra/database/balance_update_process_repository/interface";
 
 describe("RemoveValueFromOrigin", () => {
   let repositoryMock: MockProxy<IAccountRepository>;
+  let balanceUpdateProcessRepositoryMock: MockProxy<IBalanceUpdateProcessRepository>;
+
   let eventEmitter: EventEmitter;
   let listener: RemoveValueFromOrigin;
   const eventData: TransactionEventPayload = {
@@ -23,8 +26,13 @@ describe("RemoveValueFromOrigin", () => {
 
   beforeEach(() => {
     repositoryMock = mock<IAccountRepository>();
+    balanceUpdateProcessRepositoryMock = mock<IBalanceUpdateProcessRepository>();
     eventEmitter = new EventEmitter();
-    listener = new RemoveValueFromOrigin(repositoryMock, eventEmitter);
+    listener = new RemoveValueFromOrigin(
+      repositoryMock,
+      balanceUpdateProcessRepositoryMock,
+      eventEmitter
+    );
     jest.spyOn(eventEmitter, "on");
     jest.spyOn(eventEmitter, "emit");
     listener.register();
