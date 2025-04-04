@@ -21,7 +21,7 @@ export default class UpdateTransactionStatusListener extends BaseListener<Transa
   }
 
   async handle(data: TransactionEventPayload) {
-    logger.info(`Listener - ${data.transaction_id} - update_transaction_status - Started`);
+    logger.info(`Listener - ${data.transaction_id} - Update Transaction Status - Started`);
 
     const { event } = data;
 
@@ -52,6 +52,6 @@ export default class UpdateTransactionStatusListener extends BaseListener<Transa
         break;
     }
 
-    logger.info(`Listener - ${data.transaction_id} - update_transaction_status - Finished`);
+    logger.info(`Listener - ${data.transaction_id} - Update Transaction Status - Finished`);
   }
 }

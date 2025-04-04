@@ -4,7 +4,7 @@ import { TransactionEventPayload } from "../../../domain/services/TransactionSer
 import { IAccountRepository } from "../../../infra/database/account_repository/interface";
 import { IBalanceUpdateProcessRepository } from "../../../infra/database/balance_update_process_repository/interface";
 import { BaseListener } from "../BaseListener";
-import loggerMiddleware from "../loggerMiddleware";
+import logger from "../../../utils/logger";
 
 export default class BalanceRollbackProcessorListener extends BaseListener<TransactionEventPayload> {
   private readonly accountRepository: IAccountRepository;
@@ -22,13 +22,12 @@ export default class BalanceRollbackProcessorListener extends BaseListener<Trans
   }
 
   register(): void {
-    this.eventEmitter.on(
-      TransactionEvent.ROLLBACK_BALANCE,
-      loggerMiddleware(TransactionEvent.ROLLBACK_BALANCE, this.handle.bind(this))
-    );
+    this.eventEmitter.on(TransactionEvent.ROLLBACK_BALANCE, this.handle.bind(this));
   }
 
   async handle(data: TransactionEventPayload): Promise<void> {
+    logger.info(`Listener - ${data.transaction_id} - Balance Rollback Processor - Started`);
+
     const aggregator = await this.balanceUpdateProcessRepository.findByTransactionId(
       data.transaction_id
     );
@@ -62,5 +61,7 @@ export default class BalanceRollbackProcessorListener extends BaseListener<Trans
           break;
       }
     }
+
+    logger.info(`Listener - ${data.transaction_id} - Balance Rollback Processor - Finished`);
   }
 }

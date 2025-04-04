@@ -1,7 +1,6 @@
 import EventEmitter from "events";
 import { TransactionEvent } from "../../domain/events/TransactionEvents";
 import logger from "../../utils/logger";
-import loggerMiddleware from "./loggerMiddleware";
 
 export default function listenerErrorHandler(
   eventEmitter: EventEmitter,
@@ -10,8 +9,7 @@ export default function listenerErrorHandler(
 ) {
   return async (data: any) => {
     try {
-      const middleware = loggerMiddleware(eventName, handler);
-      await middleware(data);
+      await handler(data);
     } catch (error: any) {
       logger.error(`Error in listener for ${eventName}:`, error);
 

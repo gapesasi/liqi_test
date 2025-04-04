@@ -4,6 +4,7 @@ import { TransactionEventPayload } from "../../../domain/services/TransactionSer
 import { BaseListener } from "../BaseListener";
 import { IAccountRepository } from "../../../infra/database/account_repository/interface";
 import listenerErrorHandler from "../errorHandler";
+import logger from "../../../utils/logger";
 
 export default class ValidateAccountListener extends BaseListener<TransactionEventPayload> {
   private readonly accountRepository: IAccountRepository;
@@ -26,6 +27,8 @@ export default class ValidateAccountListener extends BaseListener<TransactionEve
   }
 
   async handle(data: TransactionEventPayload) {
+    logger.info(`Listener - ${data.transaction_id} - Validate Account - Started`);
+
     const originAccount = await this.accountRepository.findById(data.origin);
 
     if (!originAccount) {
@@ -41,5 +44,7 @@ export default class ValidateAccountListener extends BaseListener<TransactionEve
       ...data,
       event: TransactionEvent.ACCOUNT_VALIDATION_SUCCEEDED,
     });
+
+    logger.info(`Listener - ${data.transaction_id} - Validate Account - Finished`);
   }
 }

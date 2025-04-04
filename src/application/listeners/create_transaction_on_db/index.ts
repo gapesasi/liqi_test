@@ -7,6 +7,7 @@ import { ITransactionRepository } from "../../../infra/database/transaction_repo
 import { ITransactionValidationsRepository } from "../../../infra/database/transaction_validations_repository/interface";
 import { BaseListener } from "../BaseListener";
 import listenerErrorHandler from "../errorHandler";
+import logger from "../../../utils/logger";
 
 export default class CreateTransactionOnDbListener extends BaseListener<TransactionEventPayload> {
   constructor(
@@ -30,6 +31,8 @@ export default class CreateTransactionOnDbListener extends BaseListener<Transact
   }
 
   async handle(data: TransactionEventPayload) {
+    logger.info(`Listener - ${data.transaction_id} - Transaction Creation On DB - Started`);
+
     const transaction = await this.transactionRepository.create({
       origin: data.origin,
       target: data.target,
@@ -61,5 +64,7 @@ export default class CreateTransactionOnDbListener extends BaseListener<Transact
     };
 
     eventEmitter.emit(TransactionEvent.TRANSACTION_CREATION_SUCEEDED, payload);
+
+    logger.info(`Listener - ${data.transaction_id} - Transaction Creation On DB - Finished`);
   }
 }

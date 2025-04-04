@@ -31,7 +31,11 @@ export default () => {
     BalanceUpdateProcessModel
   );
 
-  const addValueToTargetListener = new AddValueToTargetListener(accountRepository, eventEmitter);
+  const addValueToTargetListener = new AddValueToTargetListener(
+    accountRepository,
+    balanceUpdateProcessRepository,
+    eventEmitter
+  );
   const balanceAggregator = new BalanceAggregator(balanceUpdateProcessRepository, eventEmitter);
   const createTransactionOnDbListener = new CreateTransactionOnDbListener(
     eventEmitter,
@@ -41,6 +45,7 @@ export default () => {
   );
   const removeValueFromOriginListener = new RemoveValueFromOriginListener(
     accountRepository,
+    balanceUpdateProcessRepository,
     eventEmitter
   );
   const updateTransactionStatusListener = new UpdateTransactionStatusListener(

@@ -65,7 +65,7 @@ export default class BalanceAggregator extends BaseListener<TransactionEventPayl
         event: TransactionEvent.PROCESSING_SUCEEDED,
       });
 
-      logger.info(`Listener - ${data.transaction_id} - balance_aggregator - Finished`);
+      logger.info(`Listener - ${data.transaction_id} - Balance Aggregator - Finished`);
     }
   }
 }

@@ -57,7 +57,7 @@ export default class ValidationsAggregator extends BaseListener<TransactionEvent
         event: TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
       });
 
-      logger.info(`Listener - ${event.transaction_id} - validations_aggregator - Finished`);
+      logger.info(`Listener - ${event.transaction_id} - Validations Aggregator - Finished`);
     }
   }
 }
