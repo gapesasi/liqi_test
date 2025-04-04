@@ -26,8 +26,6 @@ export default class TransactionValidationsRepository implements ITransactionVal
       Object.entries(rest).filter(([_, value]) => value !== undefined)
     );
 
-    console.log({ updateFields });
-
     if (Object.keys(updateFields).length === 0) {
       throw new Error("No valid fields provided for update.");
     }

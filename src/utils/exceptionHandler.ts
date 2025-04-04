@@ -1,9 +1,10 @@
 import { NotFoundError, BadRequestError, ValidationError } from "./error";
 import { HttpResponse, HttpStatusCode } from "./helpers/protocols";
+import logger from "./logger";
 
 
 const exceptionHandler = (error: Error): HttpResponse<{ message: string }> => {
-  console.error(error);
+  logger.error(error);
 
   let statusCode = HttpStatusCode.SERVER_ERROR;
   const message = error.message || "Internal server error";
