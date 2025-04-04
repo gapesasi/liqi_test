@@ -3,6 +3,7 @@ import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
 import { IAccountRepository } from "../../../infra/database/account_repository/interface";
 import { BaseListener } from "../BaseListener";
+import listenerErrorHandler from "../errorHandler";
 
 export default class AddValueToTargetListener extends BaseListener<TransactionEventPayload> {
   private readonly accountRepository: IAccountRepository;
@@ -14,7 +15,14 @@ export default class AddValueToTargetListener extends BaseListener<TransactionEv
   }
 
   register() {
-    this.eventEmitter.on(TransactionEvent.ALL_VALIDATIONS_SUCCEEDED, this.handle.bind(this));
+    this.eventEmitter.on(
+      TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
+      listenerErrorHandler(
+        this.eventEmitter,
+        TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
+        this.handle.bind(this)
+      )
+    );
   }
 
   async handle(data: TransactionEventPayload) {

@@ -10,7 +10,7 @@ export class AccountRepository implements IAccountRepository {
   }
 
   async removeFromBalance({ account_id, value }: UpdateBalanceProps): Promise<Account> {
-    return await this.model.update({ account_id }, { $REMOVE: { balance: value } });
+    return await this.model.update({ account_id }, { $ADD: { balance: -value } });
   }
 
   async addToCreditUsed({ account_id, value }: UpdateBalanceProps): Promise<Account> {
@@ -18,7 +18,7 @@ export class AccountRepository implements IAccountRepository {
   }
 
   async removeFromCreditUsed({ account_id, value }: UpdateBalanceProps): Promise<Account> {
-    return await this.model.update({ account_id }, { $REMOVE: { credit_used: value } });
+    return await this.model.update({ account_id }, { $ADD: { credit_used: -value } });
   }
 
   async create(props: CreateAccountProps): Promise<Account> {

@@ -6,6 +6,7 @@ import { IBalanceUpdateProcessRepository } from "../../../infra/database/balance
 import { ITransactionRepository } from "../../../infra/database/transaction_repository/interface";
 import { ITransactionValidationsRepository } from "../../../infra/database/transaction_validations_repository/interface";
 import { BaseListener } from "../BaseListener";
+import listenerErrorHandler from "../errorHandler";
 
 export default class CreateTransactionOnDbListener extends BaseListener<TransactionEventPayload> {
   constructor(
@@ -18,7 +19,14 @@ export default class CreateTransactionOnDbListener extends BaseListener<Transact
   }
 
   register() {
-    this.eventEmitter.on(TransactionEvent.PROCESSING_STARTED, this.handle.bind(this));
+    this.eventEmitter.on(
+      TransactionEvent.PROCESSING_STARTED,
+      listenerErrorHandler(
+        this.eventEmitter,
+        TransactionEvent.PROCESSING_STARTED,
+        this.handle.bind(this)
+      )
+    );
   }
 
   async handle(data: TransactionEventPayload) {

@@ -44,7 +44,7 @@ export default class SimpleQueueService<T> {
   async createQueue(): Promise<string> {
     try {
       const dlqCommand = new CreateQueueCommand({
-        QueueName: "test-queue-dlq.fifo",
+        QueueName: "transaction-dlq-queue.fifo",
         Attributes: {
           VisibilityTimeout: "10",
           MessageRetentionPeriod: "86400",
@@ -58,9 +58,9 @@ export default class SimpleQueueService<T> {
       const dlqArn = await this.getQueueArn(dlqData.QueueUrl ?? "");
 
       const queueCommand = new CreateQueueCommand({
-        QueueName: "test-queue.fifo",
+        QueueName: "transaction-queue.fifo",
         Attributes: {
-          VisibilityTimeout: "10",
+          VisibilityTimeout: "20",
           FifoQueue: "true",
           ContentBasedDeduplication: "true",
           RedrivePolicy: JSON.stringify({

@@ -38,17 +38,15 @@ export default class ValidationsAggregator extends BaseListener<TransactionEvent
 
     const { accounts_valid, balance_valid, finished } = aggregator;
 
-    console.log({ aggregator });
-
     if (accounts_valid && balance_valid && !finished) {
+      await this.validationsRepository.update({
+        transaction_id: event.transaction_id,
+        finished: true,
+      });
+
       this.eventEmitter.emit(TransactionEvent.ALL_VALIDATIONS_SUCCEEDED, {
         ...event,
         event: TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
-      });
-
-      this.validationsRepository.update({
-        transaction_id: event.transaction_id,
-        finished: true,
       });
 
       console.info("Listener - Validations Aggregator - Finished");

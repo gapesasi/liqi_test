@@ -3,6 +3,7 @@ import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
 import { IAccountRepository } from "../../../infra/database/account_repository/interface";
 import { BaseListener } from "../BaseListener";
+import listenerErrorHandler from "../errorHandler";
 
 export default class RemoveValueFromOrigin extends BaseListener<TransactionEventPayload> {
   private readonly accountRepository: IAccountRepository;
@@ -14,7 +15,14 @@ export default class RemoveValueFromOrigin extends BaseListener<TransactionEvent
   }
 
   register() {
-    this.eventEmitter.on(TransactionEvent.ALL_VALIDATIONS_SUCCEEDED, this.handle.bind(this));
+    this.eventEmitter.on(
+      TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
+      listenerErrorHandler(
+        this.eventEmitter,
+        TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
+        this.handle.bind(this)
+      )
+    );
   }
 
   async handle(data: TransactionEventPayload) {
@@ -24,13 +32,13 @@ export default class RemoveValueFromOrigin extends BaseListener<TransactionEvent
 
     switch (type) {
       case "debit":
-        this.accountRepository.removeFromBalance({
+        await this.accountRepository.removeFromBalance({
           account_id: origin,
           value,
         });
         break;
       case "credit":
-        this.accountRepository.addToCreditUsed({
+        await this.accountRepository.addToCreditUsed({
           account_id: origin,
           value,
         });
@@ -45,4 +53,3 @@ export default class RemoveValueFromOrigin extends BaseListener<TransactionEvent
     console.info("Listener - Remove Value From Origin - Finished");
   }
 }
-
