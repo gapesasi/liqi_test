@@ -7,6 +7,7 @@ import {
   SQSClient,
 } from "@aws-sdk/client-sqs";
 import { awsConfig } from "../../../config/aws.config";
+import logger from "../../../utils/logger";
 
 export default class SimpleQueueService<T> {
   private readonly client: SQSClient;
@@ -74,7 +75,7 @@ export default class SimpleQueueService<T> {
       this.queueUrl = queueData.QueueUrl ?? "";
       return this.queueUrl;
     } catch (error) {
-      //   Logger.error('SimpleQueueService.ts', 'Error Create Queue', error);
+      logger.error(`SimpleQueueService.ts - Error Create Queue - ${JSON.stringify(error)}`);
       throw error;
     }
   }
@@ -89,7 +90,7 @@ export default class SimpleQueueService<T> {
 
       await this.client.send(command);
     } catch (error) {
-      //   Logger.error('SimpleQueueService.ts', 'Error Enqueue Message', error);
+      logger.error(`SimpleQueueService.ts - Error Enqueue Message - ${JSON.stringify(error)}`);
       throw error;
     }
   }
@@ -103,7 +104,7 @@ export default class SimpleQueueService<T> {
 
       await this.client.send(command);
     } catch (error) {
-      //   Logger.error('SimpleQueueService.ts', 'Error Delete Message', error);
+      logger.error(`SimpleQueueService.ts - Error Delete Message - ${JSON.stringify(error)}`);
       throw error;
     }
   }
@@ -124,7 +125,7 @@ export default class SimpleQueueService<T> {
         receiptHandle: msg.ReceiptHandle ?? "",
       }));
     } catch (error) {
-      //   Logger.error('SimpleQueueService.ts', 'Error Unqueue Message', error);
+      logger.error(`SimpleQueueService.ts - Error Unqueue Message - ${JSON.stringify(error)}`);
       throw error;
     }
   }
