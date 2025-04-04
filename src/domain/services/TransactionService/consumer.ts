@@ -19,7 +19,7 @@ const transactionQueueConsumer = async () => {
               event: TransactionEvent.PROCESSING_STARTED,
               data: {
                 ...transaction.message,
-                timestamp: new Date(),
+                timestamp: new Date().getTime(),
                 status: "pending",
                 messageReceiptHandle: transaction.receiptHandle,
                 event: TransactionEvent.PROCESSING_STARTED,

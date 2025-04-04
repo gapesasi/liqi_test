@@ -10,15 +10,29 @@ import {
 export default class TransactionRepository implements ITransactionRepository {
   constructor(private readonly model: ModelType<Transaction>) {}
 
-  async findByPeriods(startPeriod: Date, endPeriod?: Date): Promise<Transaction[]> {
-    return await this.model.query().where("timestamp").between(startPeriod, endPeriod).all().exec();
+  async findByPeriods(startPeriod: number, endPeriod?: number): Promise<Transaction[]> {
+    if (!endPeriod) {
+      return await this.model
+        .scan("timestamp")
+        .using("transaction_timestamp_index")
+        .ge(startPeriod)
+        .all()
+        .exec();
+    }
+
+    return await this.model
+      .scan("timestamp")
+      .using("transaction_timestamp_index")
+      .between(startPeriod, endPeriod)
+      .all()
+      .exec();
   }
 
-  async findById(id: number): Promise<Transaction> {
+  async findById(id: string): Promise<Transaction> {
     return await this.model.get({ transaction_id: id });
   }
 
-  async findStatusById(id: number): Promise<Status> {
+  async findStatusById(id: string): Promise<Status> {
     const value = await this.model.get({ transaction_id: id }, { attributes: ["status"] });
     return value.status;
   }

@@ -8,7 +8,7 @@ export class Transaction extends Item {
   type: "debit" | "credit";
   origin: string;
   target: string;
-  timestamp: Date;
+  timestamp: number;
   status: "pending" | "processing" | "completed" | "failed";
 }
 
@@ -18,7 +18,13 @@ const transactionSchema = new dynamoose.Schema({
   type: { type: String, enum: ["debit", "credit"] },
   origin: { type: String },
   target: { type: String },
-  timestamp: { type: Date, index: true },
+  timestamp: {
+    type: Number,
+    index: {
+      type: "global",
+      name: "transaction_timestamp_index",
+    },
+  },
   status: { type: String, enum: ["pending", "processing", "completed", "failed"], index: true },
 });
 

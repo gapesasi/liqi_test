@@ -10,7 +10,7 @@ export default class GetTransactionByIdUseCase implements UseCase<Transaction> {
   constructor(private readonly repository: ITransactionRepository) {}
 
   async execute(request: Request): Promise<HttpResponse<Transaction>> {
-    const id = Number(request.params.id);
+    const id = request.params.id; 
 
     if (!id) {
       throw new BadRequestError("Transaction id is required");

@@ -8,11 +8,14 @@ export default class GetTransactionByPeriodsUseCase implements UseCase<Transacti
   constructor(private readonly transactionRepository: ITransactionRepository) {}
 
   async execute(request: Request): Promise<HttpResponse<Transaction[]>> {
-    const startPeriod = new Date(request.query.startPeriod as string);
+    const startPeriod = new Date(request.query.startPeriod as string).getTime();
     let endPeriod = undefined;
-    if (request.query.endPeriod) endPeriod = new Date(request.query.endPeriod as string);
+    if (request.query.endPeriod) endPeriod = new Date(request.query.endPeriod as string).getTime();
 
-    const periods = await this.transactionRepository.findByPeriods(startPeriod, endPeriod);
+    const periods = await this.transactionRepository.findByPeriods(
+      startPeriod,
+      endPeriod
+    );
 
     return {
       statusCode: HttpStatusCode.OK,

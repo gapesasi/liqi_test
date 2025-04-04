@@ -9,7 +9,7 @@ export type TransactionPayload = {
 };
 
 export type TransactionEventPayload = TransactionPayload & {
-  timestamp: Date;
+  timestamp: number;
   status: "pending" | "processing" | "completed" | "failed";
   messageReceiptHandle: string;
   event: TransactionEvent;

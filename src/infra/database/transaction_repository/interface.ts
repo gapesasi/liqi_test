@@ -7,7 +7,7 @@ export type CreateTransactionProps = {
   type: "debit" | "credit";
   origin: string;
   target: string;
-  timestamp: Date;
+  timestamp: number;
   status: Status;
 };
 
@@ -19,7 +19,7 @@ export type UpdateTransactionStatusProps = {
 export interface ITransactionRepository {
   create(props: CreateTransactionProps): Promise<Transaction>;
   updateStatus(props: UpdateTransactionStatusProps): Promise<Transaction>;
-  findById(id: number): Promise<Transaction>;
-  findByPeriods(startPeriod: Date, endPeriod?: Date): Promise<Transaction[]>;
-  findStatusById(id: number): Promise<Status>;
+  findById(id: string): Promise<Transaction>;
+  findByPeriods(startPeriod: number, endPeriod?: number): Promise<Transaction[]>; 
+  findStatusById(id: string): Promise<Status>;
 }
