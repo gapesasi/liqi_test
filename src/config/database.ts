@@ -1,14 +1,14 @@
 import dynamoose from "dynamoose";
+import { awsConfig } from "./aws.config";
 
 export const startDynamoose = () => {
   const config = new dynamoose.aws.ddb.DynamoDB({
     credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID || "",
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || "",
+      accessKeyId: awsConfig.accessKeyId,
+      secretAccessKey: awsConfig.secretAccessKey,
     },
-    region: "us-east-1",
-    // endpoint: "http://host.docker.internal:8000"
-    endpoint: "http://localhost:8000",
+    region: awsConfig.region,
+    endpoint: awsConfig.dynamoUrl,
   });
 
   dynamoose.aws.ddb.set(config);
