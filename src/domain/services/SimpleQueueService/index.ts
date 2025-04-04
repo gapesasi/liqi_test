@@ -55,7 +55,7 @@ export default class SimpleQueueService<T> {
 
       const dlqData = await this.client.send(dlqCommand);
 
-      const dlqArn = await this.getQueueArn(dlqData.QueueUrl || "");
+      const dlqArn = await this.getQueueArn(dlqData.QueueUrl ?? "");
 
       const queueCommand = new CreateQueueCommand({
         QueueName: "test-queue.fifo",
@@ -71,7 +71,7 @@ export default class SimpleQueueService<T> {
       });
 
       const queueData = await this.client.send(queueCommand);
-      this.queueUrl = queueData.QueueUrl || "";
+      this.queueUrl = queueData.QueueUrl ?? "";
       return this.queueUrl;
     } catch (error) {
       //   Logger.error('SimpleQueueService.ts', 'Error Create Queue', error);
@@ -87,8 +87,7 @@ export default class SimpleQueueService<T> {
         MessageGroupId: "received-messages",
       });
 
-      const result = await this.client.send(command);
-      return;
+      await this.client.send(command);
     } catch (error) {
       //   Logger.error('SimpleQueueService.ts', 'Error Enqueue Message', error);
       throw error;
@@ -120,9 +119,9 @@ export default class SimpleQueueService<T> {
 
       const newData = await this.client.send(command);
 
-      return (newData.Messages || []).map((msg) => ({
-        message: JSON.parse(msg.Body || "{}") as T,
-        receiptHandle: msg.ReceiptHandle || "",
+      return (newData.Messages ?? []).map((msg) => ({
+        message: JSON.parse(msg.Body ?? "{}") as T,
+        receiptHandle: msg.ReceiptHandle ?? "",
       }));
     } catch (error) {
       //   Logger.error('SimpleQueueService.ts', 'Error Unqueue Message', error);

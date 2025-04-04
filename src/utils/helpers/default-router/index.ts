@@ -12,7 +12,7 @@ interface UseCase {
 }
 
 export default class DefaultRouter {
-  private useCase: UseCase;
+  private readonly useCase: UseCase;
 
   constructor(useCase: UseCase) {
     this.useCase = useCase;

@@ -1,6 +1,5 @@
 import dynamoose from "dynamoose";
 import { Item } from "dynamoose/dist/Item";
-import { finished } from "stream";
 
 export class TransactionValidations extends Item {
   transaction_id: string;

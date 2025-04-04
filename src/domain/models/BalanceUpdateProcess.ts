@@ -1,6 +1,5 @@
 import dynamoose from "dynamoose";
 import { Item } from "dynamoose/dist/Item";
-import { v4 as uuidv4 } from "uuid";
 
 export class BalanceUpdateProcess extends Item {
   transaction_id: string;
