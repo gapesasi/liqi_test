@@ -16,6 +16,6 @@ export type UpdateTransactionValidationsProps = {
 
 export interface ITransactionValidationsRepository {
   create(props: CreateTransactionValidationsProps): Promise<TransactionValidations>;
-  findByTransactionId(transaction_id: string): Promise<TransactionValidations>;
+  findByTransactionId(transaction_id: string): Promise<TransactionValidations | null>;
   update(props: UpdateTransactionValidationsProps): Promise<TransactionValidations>;
 }

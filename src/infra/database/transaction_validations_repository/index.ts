@@ -15,7 +15,7 @@ export default class TransactionValidationsRepository implements ITransactionVal
     });
   }
 
-  async findByTransactionId(transaction_id: string): Promise<TransactionValidations> {
+  async findByTransactionId(transaction_id: string): Promise<TransactionValidations | null> {
     return await this.model.get({ transaction_id });
   }
 

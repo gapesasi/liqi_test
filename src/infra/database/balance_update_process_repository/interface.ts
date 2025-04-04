@@ -14,6 +14,6 @@ export type UpdateBalanceUpdateProcessProps = {
 
 export interface IBalanceUpdateProcessRepository {
   create(props: CreateBalanceUpdateProcessProps): Promise<BalanceUpdateProcess>;
-  findByTransactionId(transaction_id: string): Promise<BalanceUpdateProcess>;
+  findByTransactionId(transaction_id: string): Promise<BalanceUpdateProcess | null>;
   update(props: UpdateBalanceUpdateProcessProps): Promise<BalanceUpdateProcess>;
 }

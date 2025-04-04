@@ -28,7 +28,7 @@ export default class TransactionRepository implements ITransactionRepository {
       .exec();
   }
 
-  async findById(id: string): Promise<Transaction> {
+  async findById(id: string): Promise<Transaction | null> {
     return await this.model.get({ transaction_id: id });
   }
 

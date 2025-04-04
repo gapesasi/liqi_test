@@ -28,6 +28,10 @@ export default class ValidateTransactionListener extends BaseListener<Transactio
   async handle(data: TransactionEventPayload) {
     const originAccount = await this.accountRepository.findById(data.origin);
 
+    if (!originAccount) {
+      throw new Error("Origin Account Not Found");
+    }
+
     const isBalanceValid = (balance: number) => balance >= data.value;
 
     switch (data.type) {

@@ -194,6 +194,14 @@ Obtém o status de processamento de uma transação específica.
 }
 ```
 
+## Testes
+
+### Para executar os testes
+
+  ```shell
+    npm test
+  ```
+
 ## Melhorias Futuras
 
 - Implementação de autenticação e autorização.

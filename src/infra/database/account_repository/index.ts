@@ -36,7 +36,7 @@ export class AccountRepository implements IAccountRepository {
     return accounts;
   }
 
-  async findById(id: string): Promise<Account> {
+  async findById(id: string): Promise<Account | null> {
     return await this.model.get({ account_id: id });
   }
 }

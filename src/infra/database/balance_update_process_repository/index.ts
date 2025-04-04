@@ -15,7 +15,7 @@ export default class BalanceUpdateProcessRepository implements IBalanceUpdatePro
     });
   }
 
-  async findByTransactionId(transaction_id: string): Promise<BalanceUpdateProcess> {
+  async findByTransactionId(transaction_id: string): Promise<BalanceUpdateProcess | null> {
     return await this.model.get({ transaction_id });
   }
 

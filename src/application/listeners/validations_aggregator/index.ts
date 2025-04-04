@@ -37,6 +37,13 @@ export default class ValidationsAggregator extends BaseListener<TransactionEvent
 
     const aggregator = await this.validationsRepository.findByTransactionId(event.transaction_id);
 
+    if (!aggregator) {
+      logger.error(
+        `Listener - ${event.transaction_id} - validations_aggregator - Process not found`
+      );
+      return;
+    }
+
     const { accounts_valid, balance_valid, finished } = aggregator;
 
     if (accounts_valid && balance_valid && !finished) {

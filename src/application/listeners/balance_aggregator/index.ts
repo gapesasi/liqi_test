@@ -52,6 +52,11 @@ export default class BalanceAggregator extends BaseListener<TransactionEventPayl
       data.transaction_id
     );
 
+    if(!updatedProcess) {
+      logger.error(`Listener - ${data.transaction_id} - balance_aggregator - Process not found`);
+      return;
+    }
+
     const { added_to_target, removed_from_origin } = updatedProcess;
 
     if (added_to_target && removed_from_origin) {
