@@ -1,6 +1,9 @@
 import express from "express";
 import ExpressRouterAdapter from "../../main/adapters/ExpressRouterAdapter";
 import AddTransactionComposer from "../../main/composer/transaction/AddTransactionComposer";
+import GetTransactionByIdComposer from "../../main/composer/transaction/GetTransactionByIdComposer";
+import GetTransactionByPeriodsComposer from "../../main/composer/transaction/GetTransactionByPeriodsComposer";
+import GetTransactionStatusComposer from "../../main/composer/transaction/GetTransactionStatusComposer";
 
 const router = express.Router();
 
@@ -54,5 +57,10 @@ router.post("/transaction", ExpressRouterAdapter.adapt(AddTransactionComposer.co
  *                  type: integer
  *                  example: 200
  */
+
+router.get("/transaction/:id", ExpressRouterAdapter.adapt(GetTransactionByIdComposer.compose()));
+router.get("/transaction", ExpressRouterAdapter.adapt(GetTransactionByPeriodsComposer.compose()));
+router.get("/transaction/:id/status", ExpressRouterAdapter.adapt(GetTransactionStatusComposer.compose()));
+
 
 export default router;

@@ -19,4 +19,7 @@ export type UpdateTransactionStatusProps = {
 export interface ITransactionRepository {
   create(props: CreateTransactionProps): Promise<Transaction>;
   updateStatus(props: UpdateTransactionStatusProps): Promise<Transaction>;
+  findById(id: number): Promise<Transaction>;
+  findByPeriods(startPeriod: Date, endPeriod?: Date): Promise<Transaction[]>;
+  findStatusById(id: number): Promise<Status>;
 }

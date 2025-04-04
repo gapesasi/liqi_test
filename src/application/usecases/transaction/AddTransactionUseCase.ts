@@ -1,15 +1,16 @@
 import { Request } from "express";
 import UseCase from "../../../domain/interfaces/UseCase";
-import { transactionQueue } from "../../../domain/services/SimpleQueueService/TransactionQueue";
+import SimpleQueueService from "../../../domain/services/SimpleQueueService";
+import { TransactionPayload } from "../../../domain/services/TransactionService/types";
 import { HttpResponse, HttpStatusCode } from "../../../utils/helpers/protocols";
 
-export default class AddTransactionUseCase implements UseCase<any> {
-  constructor() {}
+export default class AddTransactionUseCase implements UseCase<{ message: string }> {
+  constructor(private readonly transactionQueue: SimpleQueueService<TransactionPayload>) {}
 
-  async execute(request: Request): Promise<HttpResponse<any>> {
+  async execute(request: Request): Promise<HttpResponse<{ message: string }>> {
     const { body } = request;
 
-    await transactionQueue.enqueue({
+    await this.transactionQueue.enqueue({
       transaction_id: "",
       value: body.value,
       type: body.type,

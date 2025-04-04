@@ -18,8 +18,8 @@ const transactionSchema = new dynamoose.Schema({
   type: { type: String, enum: ["debit", "credit"] },
   origin: { type: String },
   target: { type: String },
-  timestamp: { type: Date },
-  status: { type: String, enum: ["pending", "processing", "completed", "failed"] },
+  timestamp: { type: Date, index: true },
+  status: { type: String, enum: ["pending", "processing", "completed", "failed"], index: true },
 });
 
 export const TransactionModel = dynamoose.model<Transaction>("Transaction", transactionSchema);
