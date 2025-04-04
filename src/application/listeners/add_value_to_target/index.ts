@@ -26,8 +26,6 @@ export default class AddValueToTargetListener extends BaseListener<TransactionEv
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Add Value To Target - Started");
-
     const { value, target } = data;
 
     this.accountRepository.addToBalance({
@@ -39,7 +37,5 @@ export default class AddValueToTargetListener extends BaseListener<TransactionEv
       ...data,
       event: TransactionEvent.VALUE_ADDED_TO_TARGET,
     });
-
-    console.info("Listener - Add Value To Target - Finished");
   }
 }

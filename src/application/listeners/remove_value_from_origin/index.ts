@@ -26,8 +26,6 @@ export default class RemoveValueFromOrigin extends BaseListener<TransactionEvent
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Remove Value From Origin - Started");
-
     const { value, origin, type } = data;
 
     switch (type) {
@@ -49,7 +47,5 @@ export default class RemoveValueFromOrigin extends BaseListener<TransactionEvent
       ...data,
       event: TransactionEvent.VALUE_REMOVED_FROM_ORIGIN,
     });
-
-    console.info("Listener - Remove Value From Origin - Finished");
   }
 }

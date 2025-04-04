@@ -3,6 +3,7 @@ import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
 import { ITransactionRepository } from "../../../infra/database/transaction_repository/interface";
 import { BaseListener } from "../BaseListener";
+import logger from "../../../utils/logger";
 
 export default class UpdateTransactionStatusListener extends BaseListener<TransactionEventPayload> {
   private readonly transactionRepository: ITransactionRepository;
@@ -20,7 +21,7 @@ export default class UpdateTransactionStatusListener extends BaseListener<Transa
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Update Transaction Status - Started");
+    logger.info(`Listener - ${data.transaction_id} - update_transaction_status - Started`);
 
     const { event } = data;
 
@@ -51,6 +52,6 @@ export default class UpdateTransactionStatusListener extends BaseListener<Transa
         break;
     }
 
-    console.info("Listener - Update Transaction Status - Finished");
+    logger.info(`Listener - ${data.transaction_id} - update_transaction_status - Finished`);
   }
 }

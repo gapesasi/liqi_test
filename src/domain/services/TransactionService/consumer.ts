@@ -1,3 +1,4 @@
+import logger from "../../../utils/logger";
 import { eventEmitter } from "../../events/EventEmitter";
 import { TransactionEvent, TransactionEventData } from "../../events/TransactionEvents";
 import { transactionQueue } from "../SimpleQueueService/TransactionQueue";
@@ -11,7 +12,7 @@ const transactionQueueConsumer = async () => {
       try {
         const transactions = await transactionQueue.unqueue();
 
-        console.log("Transactions Found: ", transactions);
+        logger.info(`Transactions Found: ${JSON.stringify(transactions, null, 2)}`);
 
         if (transactions.length > 0) {
           transactions.forEach((transaction) => {
@@ -30,7 +31,7 @@ const transactionQueueConsumer = async () => {
           });
         }
       } catch (error) {
-        console.error(error);
+        logger.error(error);
       }
 
       await new Promise<void>((res) => {

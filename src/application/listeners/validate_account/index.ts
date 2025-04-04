@@ -26,8 +26,6 @@ export default class ValidateAccountListener extends BaseListener<TransactionEve
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Validate Account - Started");
-
     const originAccount = await this.accountRepository.findById(data.origin);
 
     if (!originAccount) {
@@ -43,7 +41,5 @@ export default class ValidateAccountListener extends BaseListener<TransactionEve
       ...data,
       event: TransactionEvent.ACCOUNT_VALIDATION_SUCCEEDED,
     });
-
-    console.info("Listener - Validate Account - Finished");
   }
 }

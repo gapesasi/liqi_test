@@ -2,8 +2,9 @@ import EventEmitter from "events";
 import { eventEmitter } from "../../../domain/events/EventEmitter";
 import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
-import { BaseListener } from "../BaseListener";
 import { IBalanceUpdateProcessRepository } from "../../../infra/database/balance_update_process_repository/interface";
+import logger from "../../../utils/logger";
+import { BaseListener } from "../BaseListener";
 
 export default class BalanceAggregator extends BaseListener<TransactionEventPayload> {
   private readonly balanceUpdateProcessRepository: IBalanceUpdateProcessRepository;
@@ -59,7 +60,7 @@ export default class BalanceAggregator extends BaseListener<TransactionEventPayl
         event: TransactionEvent.PROCESSING_SUCEEDED,
       });
 
-      console.info("Listener - Balance Aggregator - Finished");
+      logger.info(`Listener - ${data.transaction_id} - balance_aggregator - Finished`);
     }
   }
 }

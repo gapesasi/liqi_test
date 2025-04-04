@@ -8,6 +8,7 @@ import { AccountRepository } from "../../infra/database/account_repository";
 import BalanceUpdateProcessRepository from "../../infra/database/balance_update_process_repository";
 import TransactionRepository from "../../infra/database/transaction_repository";
 import TransactionValidationsRepository from "../../infra/database/transaction_validations_repository";
+import logger from "../../utils/logger";
 
 import AddValueToTargetListener from "./add_value_to_target";
 import BalanceAggregator from "./balance_aggregator";
@@ -82,5 +83,5 @@ export default () => {
 
   listeners.forEach((listener) => listener.register());
 
-  console.log("Started Listeners Successfully");
+  logger.info("Started Listeners Successfully");
 };

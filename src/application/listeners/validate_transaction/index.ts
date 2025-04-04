@@ -26,8 +26,6 @@ export default class ValidateTransactionListener extends BaseListener<Transactio
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Validate Transaction - Started");
-
     const originAccount = await this.accountRepository.findById(data.origin);
 
     const isBalanceValid = (balance: number) => balance >= data.value;
@@ -50,7 +48,5 @@ export default class ValidateTransactionListener extends BaseListener<Transactio
       ...data,
       event: TransactionEvent.BALANCE_VALIDATION_SUCCEEDED,
     });
-
-    console.info("Listener - Validate Transaction - Finished");
   }
 }

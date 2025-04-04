@@ -3,6 +3,7 @@ import { TransactionEvent } from "../../../domain/events/TransactionEvents";
 import { TransactionEventPayload } from "../../../domain/services/TransactionService/types";
 import { ITransactionValidationsRepository } from "../../../infra/database/transaction_validations_repository/interface";
 import { BaseListener } from "../BaseListener";
+import logger from "../../../utils/logger";
 
 export default class ValidationsAggregator extends BaseListener<TransactionEventPayload> {
   private readonly validationsRepository: ITransactionValidationsRepository;
@@ -49,7 +50,7 @@ export default class ValidationsAggregator extends BaseListener<TransactionEvent
         event: TransactionEvent.ALL_VALIDATIONS_SUCCEEDED,
       });
 
-      console.info("Listener - Validations Aggregator - Finished");
+      logger.info(`Listener - ${event.transaction_id} - validations_aggregator - Finished`);
     }
   }
 }

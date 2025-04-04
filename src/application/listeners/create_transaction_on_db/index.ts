@@ -30,7 +30,6 @@ export default class CreateTransactionOnDbListener extends BaseListener<Transact
   }
 
   async handle(data: TransactionEventPayload) {
-    console.info("Listener - Transaction Creation - Started");
     const transaction = await this.transactionRepository.create({
       origin: data.origin,
       target: data.target,
@@ -62,6 +61,5 @@ export default class CreateTransactionOnDbListener extends BaseListener<Transact
     };
 
     eventEmitter.emit(TransactionEvent.TRANSACTION_CREATION_SUCEEDED, payload);
-    console.info("Listener - Transaction Creation - Finished");
   }
 }
